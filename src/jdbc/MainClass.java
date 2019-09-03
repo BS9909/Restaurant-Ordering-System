@@ -28,7 +28,7 @@ public class MainClass  {
 			editOrder = new EditOrder(connection);
 			payment = new Payment(connection, "IN1");
 			
-		//	makeOrder.setOrder("Polêdwiczki","Martini" ,"IN4");
+		//	makeOrder.setOrder("Pomidorowa","tea" ,"IN4");
 		//	makeOrder.setOrderDish("Kurczak", "OUT2");
 		//	makeOrder.setOrderDrink("coca-cola", "OUT3");
 		//	editOrder.deleteAllOrder("IN1");
@@ -36,9 +36,10 @@ public class MainClass  {
 		//	editOrder.editDrink("coca-cola", "Martini", "IN1");
 		//	editOrder.deleteDish("Szarlotka", "IN5");
 		//	editOrder.deleteDrink("coca-cola","OUT3");
-			payment.setPay();
-			payment.displaySum();
-			payment.deleteAllOrder("IN1");
+		//	payment.setPay();
+		//	payment.splitPayment(2);
+		//	payment.displaySum();
+		//	payment.deleteAllOrder("IN1");
 		}
 		catch(Exception exception) {
 			error = true;

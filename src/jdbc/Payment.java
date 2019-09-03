@@ -29,10 +29,9 @@ private ResultSet orderCalculation() throws SQLException{
 
 public void setPay() throws SQLException {
 	statement = connection.createStatement();
-	
 	statement.executeUpdate("UPDATE orders SET is_pay = TRUE WHERE is_pay = FALSE AND table_id ='" + tableId + "'");
 	isPay = true;
-	}
+}
 
 public void displaySum() throws SQLException {
 	resultSet = orderCalculation();
@@ -41,6 +40,7 @@ public void displaySum() throws SQLException {
 	}
 }
 
+@Override
 public void deleteAllOrder(String setString) throws SQLException{
 	if(isPay) {
 		statement = connection.createStatement();	
@@ -48,5 +48,17 @@ public void deleteAllOrder(String setString) throws SQLException{
 		isPay  = false;
 		System.out.print("Zap³acono, wartoœæ is pay ustawiona na: " + isPay);
 		}
+	}
+
+public ResultSet splitPayment(int orderId) throws SQLException{
+	statement = connection.createStatement();
+	statement.executeUpdate("UPDATE orders SET is_pay = TRUE WHERE is_pay = FALSE AND order_id ='" + orderId + "'");
+	resultSet = statement.executeQuery("SELECT sum(drink_price) + sum(dish_price) as 'to_pay' FROM orders WHERE order_id = " + orderId);
+	
+	while(resultSet.next()) {
+		System.out.format("%-6s", resultSet.getInt(1));
+	}
+	
+	return resultSet;
 	}
 }
