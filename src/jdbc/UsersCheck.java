@@ -1,7 +1,6 @@
 package jdbc;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,20 +10,15 @@ public class UsersCheck {
 	private static Connection connection = null;
 	private static ResultSet resultSet	= null;
 	private static PreparedStatement preparedStatement = null;
-	
+	private static MakeConnection makeConnection = null;
 	
 	public UsersCheck() throws SQLException{
-		try {
-		connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reastaurant_db?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","sochacki24");
-		}
-		catch(Exception e) {
-			System.out.print("Error in connection with databse in UsersCheck" + e.getMessage());
-		}
+		makeConnection = new MakeConnection(connection);
 	}
 	
 	public boolean insertUsers(String first_name, String last_name, String email, String password) throws SQLException {
 		try {
-			preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM users WHERE email = ?");
+			preparedStatement = makeConnection.getConnection().prepareStatement("SELECT COUNT(*) FROM users WHERE email = ?");
 			preparedStatement.setString(1, email);
 			
 			resultSet = preparedStatement.executeQuery();
@@ -34,7 +28,7 @@ public class UsersCheck {
 					return false;
 				}
 			}
-			preparedStatement = connection.prepareStatement("INSERT INTO users(first_name,last_name,email,user_password) VALUES(?,?,?,?)");
+			preparedStatement = makeConnection.getConnection().prepareStatement("INSERT INTO users(first_name,last_name,email,user_password) VALUES(?,?,?,?)");
 			preparedStatement.setString(1, first_name);
 			preparedStatement.setString(2, last_name);
 			preparedStatement.setString(3, email);
@@ -46,13 +40,17 @@ public class UsersCheck {
 		}
 		catch(Exception e) {
 			System.out.print("Error in isertUser method: " + e.getMessage());
+		}finally {
+			if(preparedStatement != null)  {
+				preparedStatement.close();
+			}
 		}
 		return false;
 	}
 	
-	public int checkPassword(String email, String password) {
+	public int checkPassword(String email, String password) throws SQLException {
 		try {
-			preparedStatement = connection.prepareStatement("SELECT user_id FROM users WHERE email = ? AND user_password = ?");
+			preparedStatement = makeConnection.getConnection().prepareStatement("SELECT user_id FROM users WHERE email = ? AND user_password = ?");
 			preparedStatement.setString(1,email);
 			preparedStatement.setString(2,password);
 			
@@ -64,6 +62,10 @@ public class UsersCheck {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		}finally {
+			if(preparedStatement != null)  {
+				preparedStatement.close();
+			}
 		}
 		return -1;
 	}
