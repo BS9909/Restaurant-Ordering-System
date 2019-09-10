@@ -7,12 +7,9 @@ import javax.swing.border.EmptyBorder;
 import jdbc.SelectTable;
 
 import java.awt.Color;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;

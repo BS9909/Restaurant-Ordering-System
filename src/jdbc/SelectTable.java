@@ -62,7 +62,7 @@ public class SelectTable {
 			e.printStackTrace();
 		}finally {
 			if(preparedStatement != null)  {
-				preparedStatement.close();
+				//preparedStatement.close();
 			}
 		}
 		return tablesList;

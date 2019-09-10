@@ -42,7 +42,7 @@ public class UsersCheck {
 			System.out.print("Error in isertUser method: " + e.getMessage());
 		}finally {
 			if(preparedStatement != null)  {
-				preparedStatement.close();
+				//preparedStatement.close();
 			}
 		}
 		return false;
@@ -64,7 +64,7 @@ public class UsersCheck {
 			e.printStackTrace();
 		}finally {
 			if(preparedStatement != null)  {
-				preparedStatement.close();
+				//preparedStatement.close();
 			}
 		}
 		return -1;

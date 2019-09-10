@@ -32,7 +32,7 @@ public class AddOrder {
 			e.printStackTrace();
 		}finally {
 			if(preparedStatement != null)  {
-				preparedStatement.close();
+				//preparedStatement.close();
 			}
 		}
 	}
@@ -51,7 +51,7 @@ public class AddOrder {
 			e.printStackTrace();
 		}finally {
 			if(preparedStatement != null)  {
-				preparedStatement.close();
+				//preparedStatement.close();
 			}
 		}
 	}

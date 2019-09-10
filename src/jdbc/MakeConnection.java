@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class MakeConnection {
 	private static Connection connection = null;
 	Boolean error = false;
-	private static String jdbcURL = "jdbc:mysql://localhost:3306/reastaurant_db?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private static String user = "root";
-	private static String password = "sochacki24";
+	private static String jdbcURL = "jdbc:mysql://mariadb9.iq.pl:3306/zydor_bart";
+	private static String user = "zydor_bart";
+	private static String password = "q5ej5XcBVfxWhs0gCbOz";
 
 	MakeConnection(Connection connection) throws SQLException{
 		this.connection = connection;
@@ -29,7 +29,12 @@ public class MakeConnection {
 		}
 	}
 	public Connection getConnection() throws SQLException {
-		connection = DriverManager.getConnection(jdbcURL,user,password);
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection(jdbcURL,user,password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return connection;
 	}
 }
