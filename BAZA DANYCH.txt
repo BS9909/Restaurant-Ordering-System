@@ -1,0 +1,226 @@
+CREATE DATABASE reastaurant_db;
+USE reastaurant_db;
+
+
+DROP TABLE orders;
+desc main_dishes;
+desc drink;
+desc restaurants_tables;
+desc orders;
+
+CREATE TABLE main_dishes(
+    dish_name	varchar(20),
+    dish_type	varchar(20),
+    dish_price	int,
+	PRIMARY KEY (dish_name)
+);
+    
+CREATE TABLE drink(
+	drink_name	VARCHAR(20),
+    drink_type	VARCHAR(20),
+    drink_price	INT,
+    PRIMARY KEY (drink_name)
+);
+
+CREATE TABLE restaurants_tables(
+	table_id			VARCHAR(20)	,
+    table_available		BOOLEAN 	DEFAULT FALSE,
+	table_reservation	BOOLEAN		default false,
+    PRIMARY KEY (table_id)
+);
+select * from orders;
+desc orders;
+
+
+
+
+desc orders;
+
+SELECT * FROM main_dishes;
+SELECT * FROM drink;
+SELECT * FROM restaurants_tables;
+#==================================================
+DROP PROCEDURE IF EXISTS takeOrder;
+#==================================================
+delimiter //
+CREATE PROCEDURE takeOrder(
+			IN  order_name  		VARCHAR(20),
+            OUT out_name    		VARCHAR(20),	
+			OUT out_price   		INT
+           )
+            
+BEGIN
+	select md.dish_name,md.dish_price
+    INTO out_name, out_price
+    FROM  main_dishes md
+    WHERE md.dish_name = order_name;
+END//
+delimiter ;
+#==================================================
+DROP PROCEDURE IF EXISTS takeDrink;
+#==================================================
+delimiter //
+CREATE PROCEDURE takeDrink(
+			IN  order_drink  		VARCHAR(20),
+            OUT out_name    		VARCHAR(20),	
+			OUT out_price   		INT
+           )
+            
+BEGIN
+	select drink_name, drink_price
+    INTO out_name, out_price
+    FROM  drink
+    WHERE order_drink = drink_name;
+END//
+delimiter ;
+#============================================================
+DROP PROCEDURE IF EXISTS takeOrder;
+#============================================================
+delimiter //
+CREATE PROCEDURE takeTable(
+			IN  order_table_id  			VARCHAR(20),
+            OUT out_table_id    			VARCHAR(20)
+           )
+            
+BEGIN
+	select table_id
+    INTO out_table_id
+    FROM  restaurants_tables
+    WHERE order_table_id = table_id;
+END//
+delimiter ;
+#============================================================
+SET @arg_name  = "default";
+SET @arg_price = 0;
+SET @arg_table = 'FREE';
+SET @arg_drink_name  = "default";
+SET @arg_drink_price = 0;
+
+#============================================================
+CALL takeOrder('Kurczak', @arg_name, @arg_price);
+CALL takeTable('OUT1',@arg_table);
+CALL takeDrink('tea', @arg_drink_name,@arg_drink_price);
+
+SELECT  @arg_table;
+ SELECT  @arg_name, @arg_price;
+ 
+ 
+DELETE FROM orders WHERE table_id !=  NULL;
+
+INSERT INTO orders (table_id,dish_name, dish_price,drink_name,drink_price)
+VALUES (@arg_table,@arg_name,  @arg_price,@arg_drink_name,@arg_drink_price);
+
+INSERT INTO orders (table_id, drink_name,drink_price)
+values('IN1', 'Martini',15);
+
+SELECT * from orders;
+desc orders;
+
+UPDATE orders 
+SET drink_name = NULL
+WHERE drink_name = 'Pomidorowa' AND table_id='IN2';
+
+SELECT * from orders;
+SELECT * from main_dishes;
+
+
+DELETE FROM orders WHERE table_id = 'IN3';
+
+desc orders;
+
+ALTER TABLE orders
+DROP PRIMARY KEY;
+
+DELETE FROM orders where table_id =  null;
+
+
+SELECT sum(drink_price) + sum(dish_price) as 'to_pay' FROM orders WHERE order_id = 1 || order_id = 2;
+
+SELECT sum(drink_price) + sum(dish_price) as 'to pay'
+FROM orders 
+WHERE table_id = 'IN1';
+
+
+SELECT 1 FROM orders WHERE is_pay = ALL (SELECT is_pay FROM orders where order_id=1)=1;
+
+
+
+
+
+DROP TABLE users ;
+CREATE TABLE users (
+	user_id			INT PRIMARY KEY AUTO_INCREMENT,
+    first_name		VARCHAR(20)	not null,
+    last_name		VARCHAR(20) not null,
+    email			VARCHAR(30) not null,
+    user_password	VARCHAR(20) not null
+    );
+ 
+desc users;
+desc main_dishes;
+select dish_type from main_dishes;
+desc orders;
+DELETE from  users where user_id = 3;
+select * from users;
+INSERT INTO users (first_name,last_name,email,user_password) VALUES(?,?,?,?)
+
+
+DROP PROCEDURE IF EXISTS takeFood;
+#============================================================
+delimiter //
+CREATE PROCEDURE takeFood(
+			IN  inType 					VARCHAR(20),
+            OUT outFoodName    			VARCHAR(20)
+           )
+            
+BEGIN
+	select dish_name
+    INTO outFoodName
+    FROM  main_dishes
+    WHERE inType = dish_type;
+END//
+delimiter ;
+ desc main_dishes;
+ select * from main_dishes;
+ 
+ SET @arg_name  = "default";
+#============================================================
+CALL takeFood('Zupa', @arg_name);
+
+
+SELECT COUNT(*) FROM main_dishes WHERE dish_type = 'Zupa';
+SELECT dish_name FROM main_dishes WHERE dish_type = 'Zupa';
+select @arg_name;
+select * from drink;
+
+desc orders;
+select * from restaurants_tables;
+INSERT INTO dishes
+VALUES ('Cesar', 'salads', 24),('Teriyaki','salads',27),
+		('Trout','fish',29),('Salmon','fish',35),('cod','fish',30),
+		('Potato','additives',6),('French-fires', 'additives',6),('Rice','additives',8);
+        
+ #=====================================================================================       
+select * FROM users;
+desc orders;
+SELECT dish_name,drink_name  FROM orders WHERE table_id = 'IN2';
+SELECT COUNT(*) FROM orders WHERE table_id = 'IN1';
+DROP TABLE orders;
+CREATE TABLE orders(
+	order_id		INT PRIMARY KEY auto_increment,
+	table_id		VARCHAR(20) ,
+    dish_name 		VARCHAR(20)	,
+    drink_name		VARCHAR(20) ,
+    dish_price		INT,
+    drink_price		INT,
+    is_pay			BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY(table_id) 	REFERENCES restaurants_tables (table_id)
+);
+#=====================================================================================
+
+SELECT dish_name, drink_name FROM orders WHERE table_id = 'IN1';
+SELECT COUNT(*) FROM orders WHERE table_id = 'IN1';
+
+select * from users;
+
+GRANT ALL ON test.* TO '%'@'%';

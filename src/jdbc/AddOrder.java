@@ -32,29 +32,11 @@ public class AddOrder {
 			e.printStackTrace();
 		}finally {
 			if(preparedStatement != null)  {
-				//preparedStatement.close();
+				preparedStatement.close();
 			}
 		}
 	}
-	public void insertDrink(String tableId, String drinkName) throws SQLException {
-		String querry = "INSERT INTO orders(table_id, drink_name,drink_price) VALUES (?,?,?)";
-		try {
-			preparedStatement = makeConnection.getConnection().prepareStatement(querry);
-			
-			preparedStatement.setString(1, tableId);
-			preparedStatement.setString(2, drinkName);
-			preparedStatement.setInt(3, takeDrinkPrice(drinkName));
-			
-			preparedStatement.executeUpdate();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			if(preparedStatement != null)  {
-				//preparedStatement.close();
-			}
-		}
-	}
+
 private static int takeDishPrice(String dishName) throws SQLException{
 		
 		callableStatement = makeConnection.getConnection().prepareCall("{CALL takeOrder(?,?,?)}");
@@ -69,19 +51,5 @@ private static int takeDishPrice(String dishName) throws SQLException{
 		
 		return dishOutParameter2;
 	}
-private static  int takeDrinkPrice(String drinkName) throws SQLException{
-	
-	callableStatement = makeConnection.getConnection().prepareCall("{CALL takeDrink(?,?,?)}");
-	
-	callableStatement.setString(1, drinkName);
-	callableStatement.registerOutParameter(2, Types.VARCHAR);
-	callableStatement.registerOutParameter(3, Types.INTEGER);
-	
-	resultSet = callableStatement.executeQuery();
-			
-	int drinkOutParameter2 = callableStatement.getInt(3);
-	
-	return drinkOutParameter2;
 
-}
 }

@@ -43,12 +43,33 @@ public class MainFrame extends JFrame {
 		});
 		makeOrderButton.setBounds(151, 138, 246, 63);
 		contentPane.add(makeOrderButton);
+		
+		Button showOrdersButton = new Button("Show Orders");
+		showOrdersButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					makeShowOrderVisible();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		showOrdersButton.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 23));
+		showOrdersButton.setBackground(new Color(0, 153, 0));
+		showOrdersButton.setBounds(151, 219, 246, 63);
+		contentPane.add(showOrdersButton);
 	}
 	
 	private static void makeSelectTableVisible() {
 		selectTableFrame = new SelectTableFrame();
 		selectTableFrame.setLocationRelativeTo(null);
 		selectTableFrame.setVisible(true);
+		logInFrame.setMainFrameInvisible();
+	}
+	private static void makeShowOrderVisible() throws SQLException {
+		ShowOrderFrame showOrderFrame = new ShowOrderFrame();
+		showOrderFrame.setLocationRelativeTo(null);
+		showOrderFrame.setVisible(true);
 		logInFrame.setMainFrameInvisible();
 	}
 	static void setSelectTableinVisible() {

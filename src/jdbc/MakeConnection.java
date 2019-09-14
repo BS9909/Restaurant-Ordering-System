@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class MakeConnection {
 	private static Connection connection = null;
 	Boolean error = false;
-	private static String jdbcURL = "jdbc:mysql://mariadb9.iq.pl:3306/zydor_bart";
-	private static String user = "zydor_bart";
-	private static String password = "q5ej5XcBVfxWhs0gCbOz";
-
+	private static String jdbcURL = "jdbc:mysql://localhost/reastaurant_db?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false&maxReconnects=10" ;//mariadb9.iq.pl
+	private static String user = "root";//"zydor_bart";
+	private static String password = "sochacki24";//"q5ej5XcBVfxWhs0gCbOz"
+		
 	MakeConnection(Connection connection) throws SQLException{
 		this.connection = connection;
 	try {

@@ -86,21 +86,13 @@ public class AddOrderFrame extends JFrame {
 		if(food == "additives") {
 			additivescomboBox.setModel(comboBoxModel);
 		}
-		
-	}
-	public static void addDrinkToComboBox(String tableName, String firstColumnName,String secondColumnName,String drink) throws SQLException {
-		DefaultComboBoxModel<String>comboBoxModel = new DefaultComboBoxModel<>();
-		
-		for(int i=0; i<selectDishes.countOrder(tableName,secondColumnName,drink); i++) {
-			comboBoxModel.addElement(selectDishes.insertOrder(tableName,firstColumnName,secondColumnName,drink).get(i).toString());
-		}
-		if(drink == "Cold Drink") {
+		if(food == "Cold Drink") {
 			coldDrinkComboBox.setModel(comboBoxModel);
 		}
-		if(drink == "Hot Drink") {
+		if(food == "Hot Drink") {
 			hotDrinkComboBox.setModel(comboBoxModel);
 		}
-		if(drink == "Alcohol") {
+		if(food == "Alcohol") {
 			alcoholComboBox.setModel(comboBoxModel);
 		}
 		
@@ -125,9 +117,9 @@ public class AddOrderFrame extends JFrame {
 		if(fishComboBox.getSelectedItem() != null)			addOrder.insertDish(SelectTableFrame.getSelectedTable(), fishName);
 		if(othercomboBox.getSelectedItem() != null)			addOrder.insertDish(SelectTableFrame.getSelectedTable(), otherName);
 		if(additivescomboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), additivesName);
-		if(coldDrinkComboBox.getSelectedItem() != null)		addOrder.insertDrink(SelectTableFrame.getSelectedTable(), coldDrinkName);
-		if(hotDrinkComboBox.getSelectedItem() != null)		addOrder.insertDrink(SelectTableFrame.getSelectedTable(), hotDrinkName);
-		if(alcoholComboBox.getSelectedItem() != null)		addOrder.insertDrink(SelectTableFrame.getSelectedTable(), alcoholName);
+		if(coldDrinkComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), coldDrinkName);
+		if(hotDrinkComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), hotDrinkName);
+		if(alcoholComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), alcoholName);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -244,16 +236,16 @@ public class AddOrderFrame extends JFrame {
 		additivescomboBox.setBounds(142, 308, 231, 26);
 		contentPane.add(additivescomboBox);
 		
-		addFoodToComboBox("main_dishes","dish_name","dish_type","soup");
-		addFoodToComboBox("main_dishes","dish_name","dish_type","meat");
-		addFoodToComboBox("main_dishes","dish_name","dish_type","desert");
-		addFoodToComboBox("main_dishes","dish_name","dish_type","other");
-		addFoodToComboBox("main_dishes","dish_name","dish_type","salads");
-		addFoodToComboBox("main_dishes","dish_name","dish_type","fish");
-		addFoodToComboBox("main_dishes","dish_name","dish_type","additives");
-		addDrinkToComboBox("drink","drink_name","drink_type","Cold Drink");
-		addDrinkToComboBox("drink","drink_name","drink_type","Hot Drink");
-		addDrinkToComboBox("drink","drink_name","drink_type","Alcohol");
+		addFoodToComboBox("dishes","dish_name","dish_type","soup");
+		addFoodToComboBox("dishes","dish_name","dish_type","meat");
+		addFoodToComboBox("dishes","dish_name","dish_type","desert");
+		addFoodToComboBox("dishes","dish_name","dish_type","other");
+		addFoodToComboBox("dishes","dish_name","dish_type","salads");
+		addFoodToComboBox("dishes","dish_name","dish_type","fish");
+		addFoodToComboBox("dishes","dish_name","dish_type","additives");
+		addFoodToComboBox("dishes","dish_name","dish_type","Cold Drink");
+		addFoodToComboBox("dishes","dish_name","dish_type","Hot Drink");
+		addFoodToComboBox("dishes","dish_name","dish_type","Alcohol");
 		meatComboBox.setSelectedItem(null);
 		soupComboBox.setSelectedItem(null);
 		desertComboBox.setSelectedItem(null);
