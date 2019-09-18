@@ -1,19 +1,17 @@
 package jdbc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UsersCheck {
 	
-	private static Connection connection = null;
-	private static ResultSet resultSet	= null;
+ 	private static ResultSet resultSet	= null;
 	private static PreparedStatement preparedStatement = null;
 	private static MakeConnection makeConnection = null;
 	
 	public UsersCheck() throws SQLException{
-		makeConnection = new MakeConnection(connection);
+		makeConnection = MakeConnection.getInstance();
 	}
 	
 	public boolean insertUsers(String first_name, String last_name, String email, String password) throws SQLException {
@@ -50,7 +48,7 @@ public class UsersCheck {
 	
 	public int checkPassword(String email, String password) throws SQLException {
 		try {
-			preparedStatement = makeConnection.getConnection().prepareStatement("SELECT user_id FROM users WHERE email = ? AND user_password = ?");
+			preparedStatement =makeConnection.getConnection().prepareStatement("SELECT user_id FROM users WHERE email = ? AND user_password = ?");
 			preparedStatement.setString(1,email);
 			preparedStatement.setString(2,password);
 			
@@ -62,10 +60,6 @@ public class UsersCheck {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
-		}finally {
-			if(preparedStatement != null)  {
-				//preparedStatement.close();
-			}
 		}
 		return -1;
 	}

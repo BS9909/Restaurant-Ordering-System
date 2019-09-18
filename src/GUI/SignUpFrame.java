@@ -86,10 +86,10 @@ public class SignUpFrame extends JFrame {
 	}
 	/**
 	 * Function which makes again log in frame visible and sign up frame invisible
+	 * @throws SQLException 
 	 */
-	private static void backToLogIn() {
-		logginForm.setLocationRelativeTo(null);
-		logginForm.setLogInVisible(true);
+	private static void backToLogIn() throws SQLException {
+		LogInFrame.setLogInVisible();
 		LogInFrame.setSignUpInvisible();
 	}
 	/**
@@ -177,7 +177,12 @@ public class SignUpFrame extends JFrame {
 		BackToLogInbutton.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 20));
 		BackToLogInbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				backToLogIn();
+				try {
+					backToLogIn();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		BackToLogInbutton.setBackground(new Color(0, 51, 204));

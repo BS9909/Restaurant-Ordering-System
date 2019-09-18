@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import FrameConnection.TableSelection;
 import jdbc.SelectTable;
 
 import java.awt.Color;
@@ -53,7 +54,10 @@ public class SelectTableFrame extends JFrame {
 		addOrderFrame = new AddOrderFrame();
 		addOrderFrame.setLocationRelativeTo(null);
 		addOrderFrame.setVisible(true);
-		mainFrame.setSelectTableinVisible();
+		MainFrame.setSelectTableInvisible();
+	}
+	static void makeAddOrderFrameInvisible() {
+		addOrderFrame.setVisible(false);
 	}
 	static String getSelectedTable() {
 		return tableId;
@@ -84,7 +88,7 @@ public class SelectTableFrame extends JFrame {
 		selectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(selectTableComboBox.getSelectedItem() != null) {
-					tableId = (String) selectTableComboBox.getSelectedItem();
+					TableSelection.setSelectedTable((String)selectTableComboBox.getSelectedItem());
 					makeAddOrderFrame();
 				}
 				else {
@@ -96,6 +100,18 @@ public class SelectTableFrame extends JFrame {
 		selectButton.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 23));
 		selectButton.setBounds(139, 211, 246, 69);
 		contentPane.add(selectButton);
+		
+		JButton button = new JButton("Back");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LogInFrame.setMainFrameVisible();
+	    		MainFrame.setSelectTableInvisible();
+			}
+		});
+		button.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 21));
+		button.setBackground(Color.WHITE);
+		button.setBounds(15, 16, 112, 29);
+		contentPane.add(button);
 		
 	}
 }

@@ -16,7 +16,7 @@ public class MainFrame extends JFrame {
 	private JPanel contentPane;
 	private static SelectTableFrame selectTableFrame = null; 
 	private static LogInFrame logInFrame = null;
-
+	private static ShowOrderFrame showOrderFrame = null;
 
 	public MainFrame() {
 		try {
@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
 		makeOrderButton.setBackground(new Color(0, 153, 0));
 		makeOrderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				makeSelectTableVisible();
+				setSelectTableVisible();
 			}
 		});
 		makeOrderButton.setBounds(151, 138, 246, 63);
@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
 		showOrdersButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					makeShowOrderVisible();
+					setShowOrderVisible();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -60,19 +60,22 @@ public class MainFrame extends JFrame {
 		contentPane.add(showOrdersButton);
 	}
 	
-	private static void makeSelectTableVisible() {
+	static void setSelectTableVisible() {
 		selectTableFrame = new SelectTableFrame();
 		selectTableFrame.setLocationRelativeTo(null);
 		selectTableFrame.setVisible(true);
-		logInFrame.setMainFrameInvisible();
+		LogInFrame.setMainFrameInvisible();
 	}
-	private static void makeShowOrderVisible() throws SQLException {
-		ShowOrderFrame showOrderFrame = new ShowOrderFrame();
+	static void setShowOrderVisible() throws SQLException {
+		showOrderFrame = new ShowOrderFrame();
 		showOrderFrame.setLocationRelativeTo(null);
 		showOrderFrame.setVisible(true);
-		logInFrame.setMainFrameInvisible();
+		LogInFrame.setMainFrameInvisible();
 	}
-	static void setSelectTableinVisible() {
+	static void setSelectTableInvisible() {
 		selectTableFrame.setVisible(false);
+	}
+	static void setShowOrderFrameInvisble() {
+		showOrderFrame.setVisible(false);
 	}
 }

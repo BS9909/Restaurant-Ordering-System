@@ -38,9 +38,7 @@ public class LogInFrame extends JFrame {
 
 	public static void main(String[] args)  {
 		try {
-			logginForm = new LogInFrame();
-			logginForm.setLocationRelativeTo(null);
-			logginForm.setVisible(true);
+			setLogInVisible();
 			} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -55,11 +53,19 @@ public class LogInFrame extends JFrame {
 	 * this function makes sign up frame visible and sets right parameters.
 	 * @throws SQLException 
 	 */
-	private static void makeSignUpVisible() throws SQLException {
+	static void setLogInVisible() throws SQLException {
+		logginForm = new LogInFrame();
+		logginForm.setLocationRelativeTo(null);
+		logginForm.setVisible(true);
+	}
+	static void setLogInInvisible() throws SQLException {
+		logginForm.setVisible(false);
+	}
+	static void setSignUpVisible() throws SQLException {
 		signUpForm = new SignUpFrame();
 		signUpForm.setLocationRelativeTo(null);
 		signUpForm.setVisible(true);
-		setLogInVisible(false);
+		setLogInInvisible();
 	}
 	/**
 	 * this function sets sign up frame to invisible, it  uses in the LogginFrameClass in backToLogginButton.
@@ -70,25 +76,29 @@ public class LogInFrame extends JFrame {
 	/**
 	 * this function sets login frame to invisible or visible
 	 */
-	static void setLogInVisible(boolean isVisible) {
-		logginForm.setVisible(isVisible);
-	}
+
 	/**
 	 * this function sets main frame to invisible or visible
 	 */
 	static void setMainFrameInvisible() {
 		mainFrame.setVisible(false);	
 		}
+	static void setMainFrameVisible() {
+		mainFrame.setVisible(true);	
+		}
+	static boolean getMainFrameVisible() {
+		return mainFrame.isVisible();	
+	}
 	/**
 	 * This function makes loggin frame.
 	 * @throws SQLException 
 	 * @throws HeadlessException 
 	 */
-	private static void makeLogInFrame() throws HeadlessException, SQLException {
+	private static void makeMainFrame() throws HeadlessException, SQLException {
 		if(usersCheck.checkPassword(emailtextField.getText(), String.valueOf(passwordField.getPassword())) > 0) {
 			mainFrame = new MainFrame();
 			mainFrame.setLocationRelativeTo(null);
-			mainFrame.setVisible(true);
+			setMainFrameVisible();
 			logginForm.setVisible(false);
 		}
 		else {
@@ -119,7 +129,7 @@ public class LogInFrame extends JFrame {
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					makeLogInFrame()	;
+					makeMainFrame()	;
 				} catch (HeadlessException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -138,7 +148,7 @@ public class LogInFrame extends JFrame {
 		signUpButton.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 				try {
-					makeSignUpVisible();
+					setSignUpVisible();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

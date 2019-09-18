@@ -1,6 +1,5 @@
 package jdbc;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,14 +7,13 @@ import java.sql.Types;
 import java.sql.CallableStatement;
 
 public class AddOrder {
-	private static Connection connection = null;
-	private static ResultSet resultSet	= null;
+ 	private static ResultSet resultSet	= null;
 	private static PreparedStatement preparedStatement = null;
 	private static CallableStatement callableStatement ;
 	private static MakeConnection makeConnection = null;
 	
 	public AddOrder() throws SQLException {
-		makeConnection = new MakeConnection(connection);
+		makeConnection = MakeConnection.getInstance();
 	}
 	public void insertDish(String tableId, String dishName) throws SQLException {
 		String querry = "INSERT INTO orders(table_id, dish_name,dish_price) VALUES (?,?,?)";
@@ -23,6 +21,7 @@ public class AddOrder {
 			preparedStatement = makeConnection.getConnection().prepareStatement(querry);
 			
 			preparedStatement.setString(1, tableId);
+			
 			preparedStatement.setString(2, dishName);
 			preparedStatement.setInt(3, takeDishPrice(dishName));
 			
@@ -30,10 +29,6 @@ public class AddOrder {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			if(preparedStatement != null)  {
-				preparedStatement.close();
-			}
 		}
 	}
 
@@ -51,5 +46,6 @@ private static int takeDishPrice(String dishName) throws SQLException{
 		
 		return dishOutParameter2;
 	}
+
 
 }

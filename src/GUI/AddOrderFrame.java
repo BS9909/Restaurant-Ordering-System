@@ -4,8 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import FrameConnection.TableSelection;
 import jdbc.AddOrder;
 import jdbc.SelectDishes;
+import jdbc.SelectTable;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -38,17 +40,17 @@ public class AddOrderFrame extends JFrame {
 	private static JComboBox alcoholComboBox = null;
 	private static JComboBox coldDrinkComboBox = null;
 	private static JComboBox orderComboBox = null;
-	private static SelectTableFrame selectTableFrame = null;
 	static JLabel tableIdLabel = null;
 	private String meatName,soupName,saladsName,fishName,otherName,additivesName,desertName,coldDrinkName,hotDrinkName,alcoholName;
 	private static AddOrder addOrder = null;
+	private static SelectTable selectTable = null;
 	
 	public AddOrderFrame() {
 		
 		try {
 			selectDishes = new SelectDishes();
-			selectTableFrame = new SelectTableFrame();
 			addOrder = new AddOrder();
+			selectTable = new SelectTable();
 			createDesing();
 
 		} catch (SQLException e) {
@@ -110,16 +112,16 @@ public class AddOrderFrame extends JFrame {
 		hotDrinkName = (String) hotDrinkComboBox.getSelectedItem(); 
 		alcoholName = (String) alcoholComboBox.getSelectedItem(); 
 		try {
-		if(meatComboBox.getSelectedItem() != null)			addOrder.insertDish(SelectTableFrame.getSelectedTable(), meatName);
-		if(soupComboBox.getSelectedItem() != null)			addOrder.insertDish(SelectTableFrame.getSelectedTable(), soupName);;
-		if(desertComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), desertName);
-		if(saladsComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), saladsName);
-		if(fishComboBox.getSelectedItem() != null)			addOrder.insertDish(SelectTableFrame.getSelectedTable(), fishName);
-		if(othercomboBox.getSelectedItem() != null)			addOrder.insertDish(SelectTableFrame.getSelectedTable(), otherName);
-		if(additivescomboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), additivesName);
-		if(coldDrinkComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), coldDrinkName);
-		if(hotDrinkComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), hotDrinkName);
-		if(alcoholComboBox.getSelectedItem() != null)		addOrder.insertDish(SelectTableFrame.getSelectedTable(), alcoholName);
+		if(meatComboBox.getSelectedItem() != null)			addOrder.insertDish(TableSelection.getSelectedTable(), meatName);
+		if(soupComboBox.getSelectedItem() != null)			addOrder.insertDish(TableSelection.getSelectedTable(), soupName);;
+		if(desertComboBox.getSelectedItem() != null)		addOrder.insertDish(TableSelection.getSelectedTable(), desertName);
+		if(saladsComboBox.getSelectedItem() != null)		addOrder.insertDish(TableSelection.getSelectedTable(), saladsName);
+		if(fishComboBox.getSelectedItem() != null)			addOrder.insertDish(TableSelection.getSelectedTable(), fishName);
+		if(othercomboBox.getSelectedItem() != null)			addOrder.insertDish(TableSelection.getSelectedTable(), otherName);
+		if(additivescomboBox.getSelectedItem() != null)		addOrder.insertDish(TableSelection.getSelectedTable(), additivesName);
+		if(coldDrinkComboBox.getSelectedItem() != null)		addOrder.insertDish(TableSelection.getSelectedTable(), coldDrinkName);
+		if(hotDrinkComboBox.getSelectedItem() != null)		addOrder.insertDish(TableSelection.getSelectedTable(), hotDrinkName);
+		if(alcoholComboBox.getSelectedItem() != null)		addOrder.insertDish(TableSelection.getSelectedTable(), alcoholName);
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -260,7 +262,7 @@ public class AddOrderFrame extends JFrame {
 		tableIdLabel = new JLabel("");
 		tableIdLabel.setForeground(new Color(255, 255, 255));
 		tableIdLabel.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 45));
-		tableIdLabel.setText(SelectTableFrame.getSelectedTable());
+		tableIdLabel.setText(TableSelection.getSelectedTable());
 		tableIdLabel.setBounds(664, 42, 167, 69);
 		contentPane.add(tableIdLabel);
 		
@@ -359,6 +361,7 @@ public class AddOrderFrame extends JFrame {
 		    addButton.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent arg0) {
 		    		sendOrder();
+		    		selectTable.updateTableAvailable(TableSelection.getSelectedTable(),false);
 		    	}
 		    	
 		    });
@@ -367,6 +370,18 @@ public class AddOrderFrame extends JFrame {
 	    addButton.setBackground(new Color(0, 153, 51));	
 	    addButton.setBounds(423, 357, 206, 94);
 	    contentPane.add(addButton);
+	    
+	    JButton btnBack = new JButton("Back");
+	    btnBack.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent arg0) {
+	    		LogInFrame.setMainFrameVisible();
+	    		SelectTableFrame.makeAddOrderFrameInvisible();
+	    	}
+	    });
+	    btnBack.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 21));
+	    btnBack.setBackground(new Color(255, 255, 255));
+	    btnBack.setBounds(15, 16, 112, 29);
+	    contentPane.add(btnBack);
 
 	}
 }
